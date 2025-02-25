@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const path = require("path");
 require("dotenv").config();
 const session = require('express-session');
+const MongoStore = require('connect-mongo');
 const clientProfile = require("./models/client_profile.js");
 const advocateProfile = require("./models/advocate_profile.js");
 const arbitratorProfile = require("./models/arbitrator_profile.js");
@@ -21,9 +22,13 @@ app.use(session({
     secret: process.env.SESSION_SECRET || 'your-default-secret',
     resave: false,
     saveUninitialized: false,
+    store: MongoStore.create({
+        mongoUrl: process.env.MONGODB_URI, // Your MongoDB connection string
+        ttl: 14 * 24 * 60 * 60,
+    }),
     cookie: {
         httpOnly: true,
-        secure: false // Change to true for production (HTTPS)
+        secure: process.env.NODE_ENV === 'production' // Set to true in production
     }
 }));
 

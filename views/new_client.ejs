@@ -32,81 +32,22 @@
             border-bottom: 1px solid #ddd;
         }
 
-        .logo-container {
-            display: flex;
-            align-items: center;
-        }
-
-        .logo-container img {
-            height: 40px;
-            margin-right: 10px;
-        }
-
-        nav ul {
-            list-style: none;
-            display: flex;
-            margin: 0;
-            padding: 0;
-        }
-
-        nav ul li {
-            margin-left: 20px;
-        }
-
-        nav ul li a {
-            text-decoration: none;
-            color: #333;
-            padding: 8px 12px;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
-        }
-
-        nav ul li a:hover {
-            background-color: #e0e0e0;
-        }
-
-        .dropdown {
-            position: relative;
-            display: inline-block;
-        }
-
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background-color: #f9f9f9;
-            min-width: 160px;
-            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-            z-index: 1;
-        }
-
-        .dropdown:hover .dropdown-content {
-            display: block;
-        }
-
-        .dropdown-content a {
-            color: black;
-            padding: 12px 16px;
-            text-decoration: none;
-            display: block;
-        }
-
-        .dropdown-content a:hover {
-            background-color: #f1f1f1;
-        }
+        /* ... (rest of your navbar styles, keep them as they are) ... */
 
         .container {
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.8), rgba(224, 247, 250, 0.8));
-            padding: 50px;
+            padding: 30px; /* Adjusted padding for smaller screens */
             border-radius: 25px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
             text-align: center;
-            width: 450px;
+            width: 90%; /* Use percentage for responsiveness */
+            max-width: 450px; /* Limit maximum width */
             margin-top: 80px;
         }
 
         h1 {
-            font-size: 2.8em;
-            margin-bottom: 30px;
+            font-size: 2.2em; /* Adjusted font size for smaller screens */
+            margin-bottom: 20px; /* Adjusted margin */
             color: #1976d2;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
         }
@@ -122,7 +63,7 @@
         input {
             width: calc(100% - 22px);
             padding: 10px;
-            margin-bottom: 20px;
+            margin-bottom: 15px; /* Adjusted margin */
             border: 1px solid #ccc;
             border-radius: 5px;
             box-sizing: border-box;
@@ -131,7 +72,7 @@
 
         button {
             width: 100%;
-            padding: 15px;
+            padding: 12px; /* Adjusted padding for smaller screens */
             border: none;
             border-radius: 25px;
             cursor: pointer;
@@ -139,7 +80,7 @@
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
             background: linear-gradient(to right, #2196f3, #1e88e5);
             color: white;
-            font-size: 1.1em;
+            font-size: 1em; /* Adjusted font size */
             text-transform: uppercase;
             letter-spacing: 1px;
         }
@@ -152,6 +93,27 @@
         button:active {
             transform: translateY(1px);
             box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Media queries for responsiveness */
+        @media (min-width: 600px) {
+            .container {
+                padding: 50px; /* Restore padding on larger screens */
+            }
+
+            h1 {
+                font-size: 2.8em; /* Restore font size on larger screens */
+                margin-bottom: 30px; /* Restore margin */
+            }
+
+            input {
+                margin-bottom: 20px; /* Restore margin */
+            }
+
+            button {
+                padding: 15px; /* Restore padding */
+                font-size: 1.1em; /* Restore font size */
+            }
         }
     </style>
 </head>

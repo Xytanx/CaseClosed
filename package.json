@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "bootstrap": "^5.3.2",
+    "connect-mongo": "^5.1.0",
     "dotenv": "^16.4.7",
     "ejs": "^3.1.9",
     "ejs-locals": "^1.0.2",
