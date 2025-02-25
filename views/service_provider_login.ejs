@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Service Provider Login - Kurnool</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #e8f5e9, #a5d6a7);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .login-container {
+            width: 80%;
+            max-width: 400px;
+            background-color: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            text-align: center;
+        }
+
+        h2 {
+            color: #2e7d32;
+            margin-bottom: 30px;
+            font-size: 28px;
+            font-weight: 600;
+        }
+
+        form {
+            width: 100%;
+        }
+
+        label {
+            display: block;
+            text-align: left;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        input, select {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background: linear-gradient(to right, #4caf50, #8bc34a);
+            color: white;
+            padding: 15px 35px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s ease-in-out;
+            width: 100%;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <%- include('partials/navbar') %>
+    <div class="login-container">
+        <h2>Welcome Back Chief - Kurnool</h2>
+        <% if (errorMessage) { %>
+            <p style="color: red;"><%= errorMessage %></p>
+        <% } %>
+        <form action="/service_provider/login" method="POST">
+            <label for="username">Username</label>
+            <input type="text" name="username" id="username" placeholder="Username">
+
+            <label for="password">Password</label>
+            <input type="password" name="password" id="password" placeholder="Password">
+
+            <label for="userRole">Service Provider Type</label>
+            <select name="userRole" id="userRole">
+                <option value="advocate">Advocate</option>
+                <option value="arbitrator">Arbitrator</option>
+                <option value="document_writer">Document Writer</option>
+                <option value="mediator">Mediator</option>
+                <option value="notary">Notary</option>
+            </select>
+
+            <button type="submit">Login</button>
+        </form>
+    </div>
+</body>
+</html>

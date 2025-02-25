@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Service Providers Portal</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #e8f5e9, #a5d6a7);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .portal-container {
+            width: 80%;
+            max-width: 600px;
+            background-color: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            text-align: center;
+        }
+
+        h1 {
+            color: #2e7d32;
+            margin-bottom: 30px;
+            font-size: 28px;
+            font-weight: 600;
+        }
+
+        p {
+            color: #555;
+            margin-bottom: 40px;
+            font-size: 16px;
+            line-height: 1.7;
+        }
+
+        .button-container {
+            margin-bottom: 30px;
+            display: flex; /* Use flexbox for button layout */
+            justify-content: center; /* Center buttons horizontally */
+            gap: 20px; /* Add gap between buttons */
+        }
+
+        button {
+            background: linear-gradient(to right, #4caf50, #8bc34a);
+            color: white;
+            padding: 15px 35px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s ease-in-out;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <%- include('partials/navbar') %>
+    <div class="portal-container">
+        <h1>Welcome to the Service Providers Portal</h1>
+        <p>Connect with clients and manage your services efficiently.</p>
+
+        <div class="button-container">
+            <form action="/service_provider/login" method="GET">
+                <button type="submit">Service Provider Login</button>
+            </form>
+            <form action="/service_provider/new_service_provider" method="GET">
+                <button type="submit">Register as a Service Provider</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Add hover effect to buttons
+        const buttons = document.querySelectorAll('button');
+        buttons.forEach(button => {
+            button.addEventListener('mouseover', () => {
+                button.style.transform = 'scale(1.05)';
+            });
+            button.addEventListener('mouseout', () => {
+                button.style.transform = 'scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>

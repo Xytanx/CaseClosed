@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search Providers</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #e3f2fd, #bbdefb); /* Blue gradient */
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            position: sticky;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 10;
+            background-color: rgba(240, 240, 240, 0.9);
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .content-container {
+            flex-grow: 1;
+            margin: 20px auto;
+            max-width: 900px;
+            width: 95%;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        h1 {
+            color: #1976d2; /* Blue header color */
+            margin-bottom: 20px;
+            font-size: 28px;
+            text-align: center;
+        }
+
+        form {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        input[type="text"], select {
+            padding: 10px;
+            margin-bottom: 10px;
+            width: calc(100% - 22px);
+            border: 1px solid #bbdefb; /* Blue border */
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 14px;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        button {
+            padding: 12px 20px;
+            background: linear-gradient(135deg, #64b5f6, #42a5f5); /* Blue button gradient */
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: background 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        button:hover {
+            background: linear-gradient(135deg, #42a5f5, #1e88e5); /* Darker blue hover */
+            transform: translateY(-2px);
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            padding: 15px;
+            margin-bottom: 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+
+        textarea {
+            width: calc(100% - 22px);
+            height: 100px;
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #bbdefb; /* Blue border */
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+
+        .star {
+            font-size: 20px;
+            color: #ccc;
+        }
+
+        .star.glow {
+            color: gold;
+        }
+
+        .request-form {
+            display: none;
+            margin-top: 10px;
+        }
+
+        .provider-name {
+            cursor: pointer;
+            text-decoration: underline;
+            color: #1976d2; /* Blue link color */
+        }
+
+        .message {
+            color: #1976d2; /* Blue message color */
+            text-align: center;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <%- include('partials/navbar') %>
+    </div>
+    <div class="content-container">
+        <h1>Search Providers</h1>
+
+        <form action="/search-providers" method="GET">
+            <label for="serviceType">Service Type:</label>
+            <select name="serviceType" id="serviceType">
+                <option value="advocate">Advocate</option>
+                <option value="arbitrator">Arbitrator</option>
+                <option value="document_writer">Document Writer</option>
+                <option value="mediator">Mediator</option>
+                <option value="notary">Notary</option>
+            </select><br><br>
+
+            <label for="searchQuery">Search:</label>
+            <input type="text" name="searchQuery" id="searchQuery"><br><br>
+
+            <button type="submit">Search</button>
+        </form>
+
+        <% if (req.query.message) { %>
+            <p class="message"><%= req.query.message %></p>
+        <% } %>
+
+        <% if (providers && providers.length > 0) { %>
+            <h2>Search Results:</h2>
+            <ul>
+                <% providers.forEach(provider => { %>
+                    <li>
+                        <span class="provider-name"><%= provider.first_name %> <%= provider.last_name %></span>
+                        <% if (provider.averageRating !== undefined && provider.averageRating !== null) { %>
+                            <div>
+                                <% for (let i = 1; i <= 5; i++) { %>
+                                    <span class="star <%= i <= provider.averageRating ? 'glow' : '' %>">&#9733;</span>
+                                <% } %>
+                                (<%= provider.averageRating.toFixed(2) %> out of 5)
+                            </div>
+                        <% } else { %>
+                            <div>No ratings yet.</div>
+                        <% } %>
+                        <form class="request-form" action="/send-request" method="POST">
+                            <input type="hidden" name="serviceProviderId" value="<%= provider._id %>">
+                            <input type="hidden" name="serviceProviderType" value="<%= serviceType %>">
+                            <input type="hidden" name="clientId" value="<%= session.userId %>">
+                            <label for="requestMessage">Request Message:</label>
+                            <textarea name="requestMessage" id="requestMessage" required></textarea><br><br>
+                            <button type="submit">Send Request</button>
+                        </form>
+                    </li>
+                <% }); %>
+            </ul>
+        <% } else if (providers && providers.length === 0) { %>
+            <p>No providers found.</p>
+        <% } %>
+    </div>
+
+    <script>
+        document.querySelectorAll('.provider-name').forEach(name => {
+            name.addEventListener('click', () => {
+                const form = name.parentElement.querySelector('.request-form');
+                form.style.display = form.style.display === 'block' ? 'none' : 'block';
+            });
+        });
+    </script>
+</body>
+</html>

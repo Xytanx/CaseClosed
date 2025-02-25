@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Client Profile</title>
+  <style>
+    .star {
+      font-size: 20px;
+      color: #ccc;
+    }
+    .star.glow {
+      color: gold;
+    }
+  </style>
+</head>
+<body style="font-family: sans-serif; margin: 0; padding: 0; background-color: #e6f7ff;">
+  <%- include('partials/navbar') %>
+
+  <div style="width: 80%; margin: 20px auto; background-color: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+    <h1 style="color: #1890ff; text-align: center;">Welcome, <%= r_client.first_name %> <%= r_client.last_name %>!</h1>
+
+    <div style="border: 1px solid #d9d9d9; padding: 20px; margin-bottom: 20px; background-color: #f0f5ff; border-radius: 4px;">
+      <h2 style="color: #1890ff;">Your Information</h2>
+      <p><strong>Username:</strong> <%= r_client.username %></p>
+      <p><strong>Email:</strong> <%= r_client.email_addr %></p>
+      <p><strong>Phone:</strong> <%= r_client.phone_no %></p>
+      <p><strong>Age:</strong> <%= r_client.age %></p>
+      <p><strong>Aadhar No:</strong> <%= r_client.aadhar_no %></p>
+    </div>
+
+    <div style="border: 1px solid #d9d9d9; padding: 20px; margin-bottom: 20px; background-color: #f0f5ff; border-radius: 4px;">
+      <h2 style="color: #1890ff;">Actions</h2>
+      <button onclick="location.href='/search-providers'" style="background-color: #1890ff; color: white; border: none; padding: 10px 20px; margin-right: 10px; cursor: pointer; border-radius: 4px;">Find Service Provider</button>
+      <button onclick="location.href='/client/edit_profile'" style="background-color: #1890ff; color: white; border: none; padding: 10px 20px; cursor: pointer; border-radius: 4px;">Edit Profile</button>
+    </div>
+
+    <div style="border: 1px solid #d9d9d9; padding: 20px; margin-bottom: 20px; background-color: #f0f5ff; border-radius: 4px;">
+      <h2 style="color: #1890ff;">Requests</h2>
+      <% if(requests && requests.length > 0) { %>
+          <ul style="list-style-type: none; padding: 0;">
+              <% requests.forEach(function(request, index) { %>
+                  <li style="margin-bottom: 5px;">
+                      <strong>Service Provider:</strong> <%= request.serviceProviderName %> (<%= request.serviceProviderType %>)<br>
+                      <strong>Request Message:</strong> <%= request.requestMessage %> <br>
+                      <strong>Request State:</strong>
+                      <% if (request.hire && request.completed) { %>
+                          Completed
+                      <% } else if (request.hire && !request.completed) { %>
+                          Ongoing
+                      <% } else { %>
+                          <%= request.requestState %>
+                      <% } %>
+  
+                      <% if (request.requestState === 'accepted' && !request.hire) { %>
+                          <form action="/client/hire" method="POST">
+                              <input type="hidden" name="requestId" value="<%= request._id %>">
+                              <button type="submit">Hire</button>
+                          </form>
+                      <% } %>
+  
+                      <% if (request.hire && request.completed) { %>
+                          <% if (!request.rating || !request.review) { %>
+                              <form action="/client/rate-review" method="POST" class="rateReviewForm">
+                                  <input type="hidden" name="requestId" value="<%= request._id %>">
+                                  <label for="rating">Rating (1-5):</label>
+                                  <input type="number" name="rating" min="1" max="5" class="ratingInput" required><br>
+                                  <label for="review">Review:</label>
+                                  <textarea name="review" required></textarea><br>
+                                  <button type="submit">Rate and Review</button>
+                                  <p class="ratingError" style="color: red; display: none;">Please enter a rating between 1 and 5.</p>
+                              </form>
+                          <% } else { %>
+                              <br>
+                              <strong>Rating:</strong>
+                              <div>
+                                  <% for (let i = 1; i <= 5; i++) { %>
+                                      <span class="star <%= i <= request.rating ? 'glow' : '' %>">&#9733;</span>
+                                  <% } %>
+                              </div>
+                              <strong>Review:</strong> <%= request.review %>
+                          <% } %>
+                      <% } %>
+                  </li>
+                  <% if (index < requests.length - 1) { %>
+                      <hr> <% } %>
+              <% }); %>
+          </ul>
+      <% } else { %>
+          <p>You have no requests.</p>
+      <% } %>
+  </div>
+  </div>
+
+  <script>
+    // Validate rating input on change
+    document.querySelectorAll('.ratingInput').forEach(ratingInput => {
+      ratingInput.addEventListener('change', function() {
+        const rating = parseInt(this.value);
+        const ratingError = this.parentElement.querySelector('.ratingError');
+        if (rating < 1 || rating > 5 || isNaN(rating)) {
+          ratingError.style.display = 'block';
+        } else {
+          ratingError.style.display = 'none';
+        }
+      });
+    });
+
+    // Validate rating before submitting the form
+    document.querySelectorAll('.rateReviewForm').forEach(rateReviewForm => {
+      rateReviewForm.addEventListener('submit', function(event) {
+        const ratingInput = this.querySelector('.ratingInput');
+        const rating = parseInt(ratingInput.value);
+        const ratingError = this.querySelector('.ratingError');
+        if (rating < 1 || rating > 5 || isNaN(rating)) {
+          event.preventDefault();
+          ratingError.style.display = 'block';
+        } else {
+          ratingError.style.display = 'none';
+        }
+      });
+    });
+  </script>
+</body>
+</html>

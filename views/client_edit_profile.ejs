@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Client Profile</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #e3f2fd; /* Light blue background */
+            color: #333; /* Dark text for readability */
+        }
+
+        .edit-container {
+            width: 80%;
+            max-width: 600px;
+            margin: 50px auto;
+            background-color: #fff; /* White container */
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #1976d2; /* Blue header */
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #37474f; /* Darker grey label */
+        }
+
+        input, textarea {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #bbdefb; /* Light blue border */
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        input:disabled {
+            background-color: #e0e0e0; /* Grey background for disabled fields */
+            cursor: not-allowed;
+        }
+
+        button {
+            background-color: #1976d2; /* Blue button */
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .disabled-field {
+            position: relative;
+        }
+
+        .disabled-field::after {
+            content: '×';
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            color: #aaa;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <%- include('partials/navbar') %>
+    <div class="edit-container">
+        <h2>Edit Client Profile</h2>
+        <form action="/client/update_profile" method="POST">
+            <input type="hidden" name="userId" value="<%= r_client._id %>">
+
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" name="username" id="username" value="<%= r_client.username %>">
+            </div>
+
+            <div class="form-group disabled-field">
+                <label for="first_name">First Name:</label>
+                <input type="text" name="first_name" id="first_name" value="<%= r_client.first_name %>" disabled>
+            </div>
+
+            <div class="form-group disabled-field">
+                <label for="last_name">Last Name:</label>
+                <input type="text" name="last_name" id="last_name" value="<%= r_client.last_name %>" disabled>
+            </div>
+
+            <div class="form-group">
+                <label for="email_addr">Email:</label>
+                <input type="email" name="email_addr" id="email_addr" value="<%= r_client.email_addr %>">
+            </div>
+
+            <div class="form-group">
+                <label for="phone_no">Phone:</label>
+                <input type="tel" name="phone_no" id="phone_no" value="<%= r_client.phone_no %>">
+            </div>
+
+            <div class="form-group">
+                <label for="age">Age:</label>
+                <input type="number" name="age" id="age" value="<%= r_client.age %>">
+            </div>
+
+            <div class="form-group disabled-field">
+                <label for="aadhar_no">Aadhar No:</label>
+                <input type="text" name="aadhar_no" id="aadhar_no" value="<%= r_client.aadhar_no %>" disabled>
+            </div>
+
+            <button type="submit">Update Profile</button>
+        </form>
+    </div>
+</body>
+</html>

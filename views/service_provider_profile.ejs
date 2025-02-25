@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Service Provider Profile</title>
+    <style>
+        .star {
+            font-size: 24px;
+            color: #ccc;
+        }
+
+        .star.glow {
+            color: gold;
+        }
+
+        .request-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            background-color: #f9f9f9;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .edit-profile-button {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body style="font-family: sans-serif; margin: 0; padding: 0; background-color: #e8f5e9;">
+    <%- include('partials/navbar') %>
+
+    <div style="width: 80%; margin: 20px auto; background-color: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+        <h1 style="color: #2e7d32; text-align: center;">Welcome, <%= provider.first_name %> <%= provider.last_name %>!</h1>
+
+        <div style="border: 1px solid #d9d9d9; padding: 20px; margin-bottom: 20px; background-color: #f0f5ff; border-radius: 4px;">
+            <h2 style="color: #2e7d32;">Your Information</h2>
+            <p style="margin-bottom: 10px;"><strong>Role:</strong> <%= session.userRole %></p>
+            <p style="margin-bottom: 10px;"><strong>Username:</strong> <%= provider.username %></p>
+            <p style="margin-bottom: 10px;"><strong>Email:</strong> <%= provider.email_addr %></p>
+            <p style="margin-bottom: 10px;"><strong>Phone:</strong> <%= provider.phone_no %></p>
+            <p style="margin-bottom: 10px;"><strong>Age:</strong> <%= provider.age %></p>
+            <p style="margin-bottom: 10px;"><strong>Aadhar No:</strong> <%= provider.aadhar_no %></p>
+            <% if (provider.govt_verification_no) { %>
+                <p style="margin-bottom: 10px;"><strong>Govt Verification No:</strong> <%= provider.govt_verification_no %></p>
+            <% } %>
+        </div>
+        <% if (provider.averageRating !== undefined) { %>
+            <p style="margin-bottom: 10px;"><strong>Average Rating:</strong> 
+                <% for (let i = 1; i <= 5; i++) { %>
+                    <span class="star <%= i <= provider.averageRating ? 'glow' : '' %>">&#9733;</span>
+                <% } %>
+                (<%= provider.averageRating.toFixed(2) %> out of 5)
+            </p>
+        <% } else { %>
+            <p style="margin-bottom: 10px;"><strong>Average Rating:</strong> No ratings yet.</p>
+        <% } %>
+
+        <div style="border: 1px solid #d9d9d9; padding: 20px; margin-bottom: 20px; background-color: #f0f5ff; border-radius: 4px;">
+            <h2 style="color: #2e7d32;">Actions</h2>
+            <ul style="list-style: none; padding: 0;">
+                <li><a href="/service_provider/edit_profile" class="edit-profile-button">Edit Profile</a></li>
+            </ul>
+        </div>
+
+    </div>
+
+    <div style="width: 80%; margin: 20px auto; background-color: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+        <div style="border: 1px solid #d9d9d9; padding: 20px; margin-bottom: 20px; background-color: #f0f5ff; border-radius: 4px;">
+            <h2 style="color: #2e7d32;">Requests</h2>
+            <% if (provider.requests && provider.requests.length > 0) { %>
+                <% provider.requests.forEach(function(request, index) { %>
+                    <div class="request-card">
+                        <strong style="display: block; margin-bottom: 5px;">Client Name:</strong> <%= request.clientName %> <br>
+                        <strong style="display: block; margin-bottom: 5px;">Request Message:</strong> <%= request.requestMessage %> <br>
+                        <strong style="display: block; margin-bottom: 5px;">Request State:</strong>
+                        <% if (request.hire && request.completed) { %>
+                            Completed
+                            <% if (request.rating && request.review) { %>
+                                <br>
+                                <strong style="display: block; margin-bottom: 5px;">Rating:</strong>
+                                <% for (let i = 1; i <= 5; i++) { %>
+                                    <span class="star <%= i <= request.rating ? 'glow' : '' %>">&#9733;</span>
+                                <% } %>
+                                <br>
+                                <strong style="display: block; margin-bottom: 5px;">Review:</strong> <%= request.review %>
+                            <% } %>
+                        <% } else if (request.hire && !request.completed) { %>
+                            Ongoing
+                            <form action="/mark-completed" method="POST">
+                                <input type="hidden" name="requestId" value="<%= request._id %>">
+                                <button type="submit">Mark Completed</button>
+                            </form>
+                        <% } else if (request.requestState === 'no response') { %>
+                            No Response
+                            <form action="/update-request-state" method="POST">
+                                <input type="hidden" name="requestId" value="<%= request._id %>">
+                                <button type="submit" name="action" value="accept">Accept</button>
+                                <button type="submit" name="action" value="reject">Reject</button>
+                            </form>
+                        <% } else { %>
+                            <%= request.requestState %>
+                        <% } %>
+                        <br>
+                        <strong style="display: block; margin-bottom: 5px;">Timestamp:</strong> <%= request.timestamp %>
+                    </div>
+                <% }); %>
+            <% } else { %>
+                <p>You have no requests.</p>
+            <% } %>
+        </div>
+    </div>
+
+    <script>
+        // You can add client-side JavaScript here if needed
+    </script>
+</body>
+</html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Service Provider Profile</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #e8f5e9;
+        }
+
+        .edit-container {
+            width: 80%;
+            max-width: 600px;
+            margin: 50px auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #2e7d32;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        input, textarea {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        input:disabled {
+            background-color: #f0f0f0;
+            cursor: not-allowed;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .disabled-field {
+            position: relative;
+        }
+
+        .disabled-field::after {
+            content: '×';
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            color: #aaa;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <%- include('partials/navbar') %>
+    <div class="edit-container">
+        <h2>Edit Service Provider Profile</h2>
+        <form action="/service_provider/update_profile" method="POST">
+            <input type="hidden" name="userId" value="<%= provider._id %>">
+
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" name="username" id="username" value="<%= provider.username %>">
+            </div>
+
+            <div class="form-group disabled-field">
+                <label for="first_name">First Name:</label>
+                <input type="text" name="first_name" id="first_name" value="<%= provider.first_name %>" disabled>
+            </div>
+
+            <div class="form-group disabled-field">
+                <label for="last_name">Last Name:</label>
+                <input type="text" name="last_name" id="last_name" value="<%= provider.last_name %>" disabled>
+            </div>
+
+            <div class="form-group">
+                <label for="email_addr">Email:</label>
+                <input type="email" name="email_addr" id="email_addr" value="<%= provider.email_addr %>">
+            </div>
+
+            <div class="form-group">
+                <label for="phone_no">Phone:</label>
+                <input type="tel" name="phone_no" id="phone_no" value="<%= provider.phone_no %>">
+            </div>
+
+            <div class="form-group">
+                <label for="age">Age:</label>
+                <input type="number" name="age" id="age" value="<%= provider.age %>">
+            </div>
+
+            <div class="form-group disabled-field">
+                <label for="aadhar_no">Aadhar No:</label>
+                <input type="text" name="aadhar_no" id="aadhar_no" value="<%= provider.aadhar_no %>" disabled>
+            </div>
+
+            <% if (provider.govt_verification_no) { %>
+                <div class="form-group">
+                    <label for="govt_verification_no">Govt Verification No:</label>
+                    <input type="text" name="govt_verification_no" id="govt_verification_no" value="<%= provider.govt_verification_no %>">
+                </div>
+            <% } %>
+
+            <button type="submit">Update Profile</button>
+        </form>
+    </div>
+</body>
+</html>

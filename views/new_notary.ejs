@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+          font-family: sans-serif;
+        }
+    
+        h1 {
+          font-size: 24px;
+          margin-bottom: 20px;
+        }
+    
+        form {
+          width: 300px;
+          margin: 0 auto;
+        }
+    
+        input {
+          width: 100%;
+          padding: 10px;
+          margin-bottom: 10px;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+        }
+    
+        button {
+          width: 100%;
+          padding: 10px;
+          background-color: #000;
+          color: #fff;
+          border: none;
+          border-radius: 5px;
+          cursor: pointer;
+        }
+    
+        button:hover {
+          background-color: #333;
+        }
+      </style>
+</head>
+<body>
+    <h1>Hello Mr Advocate</h1>
+    <form method="POST" action="/service_provider/new_notary">
+        <label for="username">Username</label>
+        <input type="text" name="username" id="username" placeholder="Username">
+    <br/>
+
+        <label for="first_name">First Name</label>
+        <input type="text" name="first_name" id="first_name" placeholder="First Name">
+    <br/>
+
+        <label for="last_name">Last Name</label>
+        <input type="text" name="last_name" id="last_name" placeholder="Last Name">
+    <br/>
+
+        <label for="phone_no">Phone Number</label>
+        <input type="tel" name="phone_no" id="phone_no" placeholder="Phone Number">
+    <br/>
+
+        <label for="email_addr">Email Address</label>
+        <input type="email" name="email_addr" id="email_addr" placeholder="Email Address">
+    <br/>
+
+        <label for="age">Age</label>
+        <input type="number" name="age" id="age" placeholder="Age">
+    <br/>
+
+        <label for="aadhar_no">Aadhar Number</label>
+        <input type="number" name="aadhar_no" id="aadhar_no" placeholder="Aadhar Number">
+    <br/>
+
+        <label for="govt_verification_no">What's your ID number?</label>
+        <input type="text" name="govt_verification_no" id="govt_verification_no" placeholder="What's your ID number?">
+    <br/>
+
+        <label for="password">Enter a password</label>
+        <input type="password" name="password" id="password" placeholder="Enter a password">
+    <br/>
+
+    <button type="submit">Create</button>
+    </form>
+</body>
+</html>

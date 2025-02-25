@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to CaseClosed</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center; /* Center content vertically */
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(to top right, #7ac3ff, #b1fade);
+            text-align: center;
+            position: relative; /* Needed for absolute positioning of navbar */
+        }
+
+        nav {
+            position: absolute; /* Position navbar absolutely */
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 10; /* Ensure navbar is above other elements */
+            background-color: rgba(240, 240, 240, 0.9); /* Add a subtle background */
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        /* ... rest of your CSS styles ... */
+    </style>
+</head>
+<body>
+    <%- include('partials/navbar') %>
+    <div style="background-color: white; padding: 30px; border-radius: 15px; box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); width: 450px; background: linear-gradient(to bottom, #e0f7fa, #e8f5e9);">
+        <h1 style="color: #333; margin-bottom: 20px;">Welcome to CaseClosed</h1>
+        <p style="color: #666; margin-bottom: 30px;">Please select your user type to proceed.</p>
+        <div style="display: flex; justify-content: center; gap: 20px;">
+            <form action="/client" method="GET">
+                <button type="submit" style="padding: 15px 30px; font-size: 16px; border: none; border-radius: 25px; cursor: pointer; transition: transform 0.2s ease, box-shadow 0.2s ease; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); background: linear-gradient(to bottom, #0587f1, #00abee); color: rgb(255, 255, 255);">Client</button>
+            </form>
+            <form action="/service_provider" method="GET">
+                <button type="submit" style="padding: 15px 30px; font-size: 16px; border: none; border-radius: 25px; cursor: pointer; transition: transform 0.2s ease, box-shadow 0.2s ease; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); background: linear-gradient(to bottom, #90ee90, #228b22); color: white;">Service Provider</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
