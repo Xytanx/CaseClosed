@@ -63,7 +63,6 @@ app.post("/client/new_client", async (req, res) => {
 
         // Save the client to the database
         await newClient.save();
-        console.log("Client saved:", newClient);
 
         // Log the client in by setting session variables
         req.session.userId = newClient._id;
@@ -350,7 +349,6 @@ async function saveServiceProvider(Model, req, res, roleName) {
 
         const newServiceProvider = new Model({ username, first_name, last_name, phone_no, email_addr, age, aadhar_no, govt_verification_no, password });
         await newServiceProvider.save();
-        console.log(`Service provider (${roleName}) saved:`, newServiceProvider);
 
         // Log the user in
         req.session.userId = newServiceProvider._id;
@@ -647,5 +645,4 @@ app.get("/logout-home", (req, res) => {
 
 const port = 8080;
 app.listen(port, () => {
-    console.log(`Server is listening on port ${port}`);
 });
